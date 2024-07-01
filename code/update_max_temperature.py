@@ -30,7 +30,7 @@ df_name = df_main['地点'].apply(lambda x: pd.Series(split_city_year(x)))
 df_name = df_name.set_axis(['city', 'kana'], axis=1)
 df_main = pd.concat([df_name, df_main], axis=1)
 
-df_main = df_main.iloc[:, [0, 11]].set_axis(['city', '2024年'], axis=1)
+df_main = df_main.iloc[:, [0, 11]].set_axis(['city', '24年'], axis=1)
 
 # what day
 current_year = datetime.now().year
@@ -45,7 +45,7 @@ df_main['date'] = pd.to_datetime(df_main['date'])
 df_merge = pd.merge(df, df_main, on=['city', 'date'], how='left', suffixes=('', '_new'))
 
 if '24年_new' in df_merge.columns:
-    df_merge['2024年'] = df_merge['2024年'].combine_first(df_merge['24年_new'])
+    df_merge['24年'] = df_merge['24年'].combine_first(df_merge['24年_new'])
     df_merge = df_merge.drop(columns=['24年_new'])
 else:
     pass
@@ -53,9 +53,10 @@ else:
 order = {'東京': 0, '名古屋': 1, '大阪': 2}
 df_merge['sort_key'] = df_merge['city'].map(order)
 df_merge = df_merge.sort_values('sort_key').drop('sort_key', axis=1)
-df_merge = df_merge.set_axis(['date', '2023年', '平年', 'city', '2024年'], axis=1)
+df_merge = df_merge.set_axis(['date', '2023年', '平年', 'city', '24年'], axis=1)
 
 df_merge.to_csv(file_name)
 #Flourish用に列入れ替える
 df_merge_2 = df_merge.iloc[:, [0, 3, 2, 1, 4]]
+df_merge_2 = df_merge_2.set_axis(['date', 'city', '平年','2023年', '2024年'], axis=1)
 df_merge_2.to_csv(file_name_flourish)
