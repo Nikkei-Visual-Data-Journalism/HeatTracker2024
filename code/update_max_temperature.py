@@ -12,6 +12,7 @@ def split_city_year(city):
 
 file_name = './date/day_temperature_master.csv'
 file_name_flourish = './date/day_temperature_flourish.csv'
+file_name_table = './date/day_temperature_table.csv'
 
 
 # this is master file
@@ -60,3 +61,8 @@ df_merge.to_csv(file_name)
 df_merge_2 = df_merge.iloc[:, [0, 3, 2, 1, 4]]
 df_merge_2 = df_merge_2.set_axis(['date', 'city', '平年','2023年', '2024年'], axis=1)
 df_merge_2.to_csv(file_name_flourish)
+
+#table更新
+df_table = df_merge_2[df_merge_2['date']==current_date].iloc[:, 1:].set_index('city').T
+df_table = df_table.rename(index={'2024年':f'{current_month}月{current_day}日', '2023年':'前年'}).iloc[::-1]
+df_table.to_csv(file_name_table)
