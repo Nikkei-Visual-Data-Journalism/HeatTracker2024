@@ -46,7 +46,7 @@ df_main['date'] = pd.to_datetime(df_main['date'])
 df_merge = pd.merge(df, df_main, on=['city', 'date'], how='left', suffixes=('', '_new'))
 
 if '24年_new' in df_merge.columns:
-    df_merge['24年'] = df_merge['24年'].combine_first(df_merge['24年_new'])
+    df_merge['24年'] = df_merge['24年_new'].combine_first(df_merge['24年'])
     df_merge = df_merge.drop(columns=['24年_new'])
 else:
     pass

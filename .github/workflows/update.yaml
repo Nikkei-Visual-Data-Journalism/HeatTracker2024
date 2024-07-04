@@ -6,6 +6,8 @@ on:
       - main
   workflow_dispatch:
   schedule:
+    # Daily at 16:00 JST (07:00 UTC)
+    - cron: '0 7 * * *'
     # Daily at 17:00 JST (07:00 UTC)
     - cron: '0 8 * * *'
 
